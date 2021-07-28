@@ -1,7 +1,7 @@
 {
   "name": "@heat/cloud-front-function",
   "main": "index",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -26,7 +26,6 @@
   "devDependencies": {
     "@babel/core": "^7.5.0",
     "@heat/npm-coffee-publisher": "^0.1.7",
-    "aws-sdk": "^2.824.0",
     "coffeescript": "^2.5.1",
     "jest": "^24.8.0",
     "jest-preset-coffeescript": "1.1.1"
