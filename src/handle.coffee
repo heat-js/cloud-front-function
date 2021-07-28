@@ -18,11 +18,8 @@ export default (middlewares...) ->
 		# Run composed middleware functions.
 
 		try
-			await fn app
-
+			fn app
 		catch error
-
-			# Lambda supports errors with extra data.
 			if callback
 				callback error, if error.getData then error.getData()
 				return
@@ -32,14 +29,11 @@ export default (middlewares...) ->
 		# ----------------------------------------------------
 		# Handle response.
 
-		output = if app.has 'output'
-			app.output
-
 		# Support for the old callback function.
 		if callback
-			callback null, output
+			callback null, app.output
 			return
 
-		return output
+		return app.output
 
 	return handle
