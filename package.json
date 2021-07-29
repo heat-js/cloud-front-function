@@ -1,7 +1,7 @@
 {
   "name": "@heat/cloud-front-function",
   "main": "index",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -24,7 +24,7 @@
     "rootDir": "./test/"
   },
   "dependencies": {
-    "js-base64": "^3.6.1"
+    "js-base64": "2.6.4"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
