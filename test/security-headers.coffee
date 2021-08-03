@@ -1,10 +1,10 @@
 
-import handle 		from '../src/handle'
-import Headers 		from '../src/middleware/security-headers'
+import handle 			from '../src/handle'
+import SecurityHeaders 	from '../src/middleware/security-headers'
 
 describe 'Security Headers', ->
 	cfFunction = handle(
-		new Headers {
+		new SecurityHeaders {
 			'server':						'ColdFusion X8ZZ1'
 			'strict-transport-security':	[ 'max-age=63072000', 'preload']
 			'x-content-type-options':		'nosniff'

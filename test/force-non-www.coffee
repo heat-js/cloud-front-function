@@ -1,10 +1,10 @@
 
 import handle 		from '../src/handle'
-import ForceNonWww 	from '../src/middleware/force-non-www'
+import forceNonWww 	from '../src/middleware/force-non-www'
 
 describe 'Force Non Www', ->
 	cfFunction = handle(
-		new ForceNonWww
+		forceNonWww()
 		(app) ->
 			app.output = app.input.response
 	)

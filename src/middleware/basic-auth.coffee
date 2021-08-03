@@ -1,15 +1,12 @@
 
-export default (username, password) ->
+export default (encodedAuthString) ->
 	return (app, next) ->
 		{ request } = app.input
 
-		authString = 'Basic ' + Buffer.from(username + ':' + password, 'utf-8').toString 'base64'
-
-		if request?.headers?.authorization?.value isnt authString
+		if request?.headers?.authorization?.value isnt 'Basic ' + encodedAuthString
 			app.output = {
 				statusCode: 		401
 				statusDescription: 	'Unauthorized'
-				body: 				'Unauthorized'
 				headers: {
 					'www-authenticate': {
 						value: 'Basic'
@@ -20,6 +17,7 @@ export default (username, password) ->
 
 		next app
 
+
 # import Middleware from './abstract'
 
 # export default class BasicAuth extends Middleware
@@ -28,21 +26,4 @@ export default (username, password) ->
 # 		super()
 
 # 	handle: (app, next) ->
-# 		{ request } = app.input
-
-# 		authString = 'Basic ' + Buffer.from(@username + ':' + @password, 'utf-8').toString 'base64'
-
-# 		if request?.headers?.authorization?.value isnt authString
-# 			app.output = {
-# 				statusCode: 		401
-# 				statusDescription: 	'Unauthorized'
-# 				body: 				'Unauthorized'
-# 				headers: {
-# 					'www-authenticate': {
-# 						value: 'Basic'
-# 					}
-# 				}
-# 			}
-# 			return
-
 # 		await next app

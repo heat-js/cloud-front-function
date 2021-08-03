@@ -1,13 +1,13 @@
 
 import handle 		from '../src/handle'
-import BasicAuth 	from '../src/middleware/basic-auth'
+import basicAuth 	from '../src/middleware/basic-auth'
 
 describe 'Basic Auth', ->
 	username = 'user-1'
 	password = 'qwerty'
 
 	cfFunction = handle(
-		new BasicAuth username, password
+		basicAuth 'dXNlci0xOnF3ZXJ0eQ=='
 		(app) ->
 			app.output = app.input.response
 	)
@@ -45,7 +45,6 @@ describe 'Basic Auth', ->
 			.toStrictEqual {
 				statusCode: 401
 				statusDescription: 'Unauthorized'
-				body: 'Unauthorized'
 				headers: {
 					'www-authenticate': {
 						value: 'Basic'
@@ -63,7 +62,6 @@ describe 'Basic Auth', ->
 			.toStrictEqual {
 				statusCode: 401
 				statusDescription: 'Unauthorized'
-				body: 'Unauthorized'
 				headers: {
 					'www-authenticate': {
 						value: 'Basic'

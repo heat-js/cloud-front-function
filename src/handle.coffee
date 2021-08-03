@@ -5,17 +5,9 @@ export default (middlewares...) ->
 
 	fn = compose middlewares
 
-	# ----------------------------------------------------
-
-	handle = (input, context = {}, callback) ->
-
+	handle = (event) ->
 		app = {}
-		app.context  = context
-		app.input 	 = input
-		app.callback = callback
-
-		# ----------------------------------------------------
-		# Run composed middleware functions.
+		app.input = event
 
 		try
 			fn app
@@ -25,14 +17,6 @@ export default (middlewares...) ->
 				return
 			else
 				throw error
-
-		# ----------------------------------------------------
-		# Handle response.
-
-		# Support for the old callback function.
-		if callback
-			callback null, app.output
-			return
 
 		return app.output
 

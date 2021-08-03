@@ -1,6 +1,4 @@
 
-# import Middleware from './middleware/abstract'
-
 export default (middleware) ->
 
 	if not Array.isArray middleware
