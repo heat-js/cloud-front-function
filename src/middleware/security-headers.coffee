@@ -6,7 +6,7 @@ export default (defaultHeaders) ->
 		# ---------------------------------------------------------
 		# Set default security headers
 
-		for key, value of defaultHeaders
+		for key, value of defaultHeaders or {}
 			if value is false
 				delete response.headers[key]
 				continue

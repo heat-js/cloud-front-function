@@ -9,7 +9,7 @@ export default (middleware) ->
 
 		dispatch = (i) ->
 			if i <= index
-				return Promise.reject new Error 'next() called multiple times'
+				throw new Error 'next() called multiple times'
 
 			index = i
 			fn = middleware[i]
@@ -20,13 +20,13 @@ export default (middleware) ->
 			if not fn
 				return
 
-			try
-				return fn.apply null, [
-					...params
-					dispatch.bind null, i + 1
-				]
+			# try
+			return fn.apply null, [
+				...params
+				dispatch.bind null, i + 1
+			]
 
-			catch error
-				throw error
+			# catch error
+				# throw error
 
 		return dispatch 0
