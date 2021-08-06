@@ -9,24 +9,28 @@ describe 'Basic Auth', ->
 	cfFunction = handle(
 		basicAuth 'dXNlci0xOnF3ZXJ0eQ=='
 		(app) ->
-			app.output = app.input.response
+			app.output = app.input.request
 	)
 
 	it 'should succesfull login', ->
 		headers = {
-			'authorization': {
+			authorization: {
 				value: 'Basic ' + Buffer.from(username + ':' + password).toString 'base64'
 			}
 		}
 
 		result = cfFunction {
-			request:  { headers }
-			response: { statusCode: 200 }
+			request: { statusCode: 200, headers }
 		}
 
 		expect result
 			.toStrictEqual {
 				statusCode: 200
+				headers: {
+					authorization: {
+						value: 'Basic dXNlci0xOnF3ZXJ0eQ=='
+					}
+				}
 			}
 
 	it 'should fails login with wrong auth', ->
@@ -37,8 +41,7 @@ describe 'Basic Auth', ->
 		}
 
 		result = cfFunction  {
-			request:  { headers }
-			response: { statusCode: 200 }
+			request: { statusCode: 200, headers }
 		}
 
 		expect result
@@ -54,8 +57,7 @@ describe 'Basic Auth', ->
 
 	it 'should fails login with no auth', ->
 		result = cfFunction  {
-			request:  { headers: {} }
-			response: { statusCode: 200 }
+			request: { statusCode: 200, headers: {} }
 		}
 
 		expect result

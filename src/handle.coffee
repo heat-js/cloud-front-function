@@ -9,15 +9,6 @@ export default (middlewares...) ->
 		app = {}
 		app.input = event
 
-		# try
-		# 	fn app
-		# catch error
-		# 	if callback
-		# 		callback error, if error.getData then error.getData()
-		# 		return
-		# 	else
-		# 		throw error
-
 		fn app
 
 		return app.output

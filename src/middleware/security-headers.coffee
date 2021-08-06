@@ -1,12 +1,12 @@
 
-export default (defaultHeaders) ->
+export default (defaultHeaders = {}) ->
 	return (app, next) ->
 		{ response } = app.input
 
 		# ---------------------------------------------------------
 		# Set default security headers
 
-		for key, value of defaultHeaders or {}
+		for key, value of defaultHeaders
 			if value is false
 				delete response.headers[key]
 				continue
