@@ -1,5 +1,5 @@
 
-import { stringify } from 'querystring'
+querystring = require('querystring')
 
 export default (countries = [], ips = [])->
 	return (app, next) ->
@@ -11,21 +11,21 @@ export default (countries = [], ips = [])->
 		# ---------------------------------------------------------
 		# Normalize querystring
 
-		querystring = {}
+		qstring = {}
 		for key, { value } of request.querystring
-			querystring[key] = value
+			qstring[key] = value
 
 		# ---------------------------------------------------------
 		# Redirect a blocked country to a restricted version of the page
 
-		if countries.includes(country) and (querystring.restricted isnt country) and not ips.includes(userIp)
-			querystring.restricted = country
+		if countries.includes(country) and (qstring.restricted isnt country) and not ips.includes(userIp)
+			qstring.restricted = country
 
 			url = [
 				'https://'
 				request.headers.host?.value
 				request.uri
-				'?' + stringify querystring
+				'?' + querystring.stringify qstring
 			]
 
 			app.output = {
@@ -43,8 +43,8 @@ export default (countries = [], ips = [])->
 		# Redirect a non-blocked country or a whitelisted ip
 		# to a non restricted version of the page.
 
-		if (not countries.includes(country) or ips.includes(userIp)) and querystring.restricted
-			delete querystring.restricted
+		if (not countries.includes(country) or ips.includes(userIp)) and qstring.restricted
+			delete qstring.restricted
 
 			url = [
 				'https://'
@@ -52,8 +52,8 @@ export default (countries = [], ips = [])->
 				request.uri
 			]
 
-			if Object.keys(querystring).length
-				url.push '?' + stringify querystring
+			if Object.keys(qstring).length
+				url.push '?' + querystring.stringify qstring
 
 			app.output = {
 				statusCode: 		302
