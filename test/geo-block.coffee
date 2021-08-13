@@ -14,6 +14,7 @@ describe 'Geo Block', ->
 
 	it 'should not be redirect because non blacklisted country', ->
 		headers = {
+			accept: { value: 'text/html' }
 			'cloudfront-viewer-country': {
 				value: 'FR'
 			}
@@ -33,6 +34,7 @@ describe 'Geo Block', ->
 
 	it 'should be redirect because of blacklisted country', ->
 		headers = {
+			accept: { value: 'text/html' }
 			'cloudfront-viewer-country': {
 				value: 'NL'
 			}
@@ -57,6 +59,7 @@ describe 'Geo Block', ->
 
 	it 'should be stay on the restricted page', ->
 		headers = {
+			accept: { value: 'text/html' }
 			'cloudfront-viewer-country': {
 				value: 'NL'
 			}
@@ -76,6 +79,7 @@ describe 'Geo Block', ->
 
 	it 'should not be redirect because of a whitelisted ip address', ->
 		headers = {
+			accept: { value: 'text/html' }
 			'cloudfront-viewer-country': {
 				value: 'NL'
 			}
@@ -95,6 +99,7 @@ describe 'Geo Block', ->
 
 	it 'should redirect and force correct restricted country', ->
 		headers = {
+			accept: { value: 'text/html' }
 			'cloudfront-viewer-country': {
 				value: 'NL'
 			}
@@ -114,6 +119,7 @@ describe 'Geo Block', ->
 
 	it 'should redirect and force non-restricted page', ->
 		headers = {
+			accept: { value: 'text/html' }
 			'cloudfront-viewer-country': {
 				value: 'DE'
 			}
@@ -130,3 +136,22 @@ describe 'Geo Block', ->
 
 		expect result.statusCode
 			.toBe 302
+
+	it 'should not be redirected because of non-html page', ->
+		headers = {
+			accept: { value: '*/*' }
+			'cloudfront-viewer-country': {
+				value: 'NL'
+			}
+		}
+
+		result = cfFunction {
+			viewer:  { ip: '127.0.0.1' }
+			request: {
+				statusCode: 200
+				headers
+			}
+		}
+
+		expect result.statusCode
+			.toBe 200

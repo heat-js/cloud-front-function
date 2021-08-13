@@ -5,6 +5,13 @@ export default (countries = [], ips = [])->
 	return (app, next) ->
 		{ request, viewer } = app.input
 
+		mimes = request.headers.accept?.value or ''
+		mimes = mimes.split ','
+
+		if not mimes.includes('text/html') and not mimes.includes('application/xhtml+xml')
+			next app
+			return
+
 		userIp 	= viewer.ip
 		country = request.headers['cloudfront-viewer-country'].value
 
