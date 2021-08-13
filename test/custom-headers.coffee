@@ -1,13 +1,12 @@
 
 import handle 			from '../src/handle'
-import SecurityHeaders 	from '../src/middleware/security-headers'
+import CustomHeaders 	from '../src/middleware/custom-headers'
 
 describe 'Security Headers', ->
 	cfFunction = handle(
-		new SecurityHeaders {
+		new CustomHeaders {
 			'server':						'ColdFusion X8ZZ1'
 			'strict-transport-security':	[ 'max-age=63072000', 'preload']
-			'x-content-type-options':		'nosniff'
 			'feature-policy': {
 				'autoplay': 		"'self'"
 				'camera': 			"'none'"
@@ -19,15 +18,9 @@ describe 'Security Headers', ->
 			app.output = app.input.response
 	)
 
-	it 'should test the output', ->
-		headers = {
-			'x-amz-meta-x-content-type-options': {
-				value: 'REPLACED'
-			}
-		}
-
+	it 'should set the custom headers', ->
 		result = await cfFunction {
-			response: { headers, statusCode: 200 }
+			response: { headers: {}, statusCode: 200 }
 		}
 
 		expect result
@@ -42,9 +35,6 @@ describe 'Security Headers', ->
 					}
 					'feature-policy': {
 						value: "autoplay 'self'; camera 'none'; encrypted-media 'none'; fullscreen 'self'"
-					}
-					'x-content-type-options': {
-						value: 'REPLACED'
 					}
 				}
 			}

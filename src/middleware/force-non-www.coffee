@@ -18,12 +18,3 @@ export default ->
 			return
 
 		next app
-
-
-
-# import Middleware from './abstract'
-
-# export default class ForceNonWww extends Middleware
-
-# 	handle: (app, next) ->
-# 		await next app
